@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .timer {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Countdown Timer</h2>
+    <div class="timer" id="timerDisplay">00:00:00</div>
+    <div>
+        <button onclick="startTimer()">Start</button>
+        <button onclick="stopTimer()">Stop</button>
+        <button onclick="resetTimer()">Reset</button>
+    </div>
+    <script>
+        let timerInterval;
+        let timeInSeconds = 600;
+        let timeRemaining = timeInSeconds;
+        let timerRunning = false;
+
+        function startTimer() {
+            if (!timerRunning) {
+                timerRunning = true;
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+        }
+        function stopTimer() {
+            clearInterval(timerInterval);
+            timerRunning = false;
+        }
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            timeRemaining = timeInSeconds;
+            updateTimerDisplay();
+        }
+        function updateTimer() {
+            if (timeRemaining > 0) {
+                timeRemaining--;
+                updateTimerDisplay();
+            } else {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                alert("Countdown timer has ended!");
+            }
+        }
+        function updateTimerDisplay() {
+            let hours = Math.floor(timeRemaining / 3600);
+            let minutes = Math.floor((timeRemaining % 3600) / 60);
+            let seconds = timeRemaining % 60;
+
+            hours = hours < 10 ? `0${hours}` : hours;
+            minutes = minutes < 10 ? `0${minutes}` : minutes;
+            seconds = seconds < 10 ? `0${seconds}` : seconds;
+
+            document.getElementById("timerDisplay").textContent = `${hours}:${minutes}:${seconds}`;
+        }
+    </script>
+</body>
+</html>
